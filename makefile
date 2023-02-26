@@ -1,7 +1,7 @@
 default:
 	@cat makefile
 
-view:
+view: test
 	python db_viewer.py
 
 init:

@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import pytest
 
 
 class Singleton:
@@ -97,8 +98,18 @@ def test_resetting_after_db_creation():
 
     db_a.get_cursor()
     assert 2 == len(db_b.sql("SELECT * FROM fish;"))
+    delete_database()
 
+@pytest.fixture
+def fish():
+    connection = sqlite3.connect("aquarium.db")
+    cursor = connection.cursor()
+    cursor.execute("CREATE TABLE fish (name TEXT, species TEXT, tank_number INTEGER)")
+    cursor.execute("INSERT INTO fish VALUES ('Sammy', 'shark', 1)")
+    cursor.execute("INSERT INTO fish VALUES ('Jamie', 'cuttlefish', 7)")
+    connection.commit()
 
+    
     
 if __name__=="__main__":
 
